@@ -1,5 +1,9 @@
 package com.gaidin17.controllers;
 
+
+import com.gaidin17.service.IdCreatorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,12 +16,15 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+
 @Controller
 public class FileUploadController {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
+
     @RequestMapping("/")
     public String helloWorld(Model model) {
-        model.addAttribute("code", "Добрый день");
+        model.addAttribute("code", IdCreatorService.getClientId());
         return "index";
     }
 
