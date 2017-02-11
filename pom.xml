@@ -7,7 +7,7 @@
     <groupId>com.gaidin17</groupId>
     <artifactId>FileUploader</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>FileUploader</name>
 
     <parent>
