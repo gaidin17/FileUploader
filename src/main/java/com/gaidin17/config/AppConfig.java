@@ -3,6 +3,7 @@ package com.gaidin17.config;
 import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.Properties;
 
 /**
@@ -37,6 +38,24 @@ public class AppConfig {
         }
         return properties;
     }
+
+    public void saveConfig(String key, String value) {
+        try (FileWriter writer = new FileWriter(path + "\\" + PROPERTY_FILE)) {
+            if (properties == null) {
+                properties = new Properties();
+            }
+            properties.setProperty(key, value);
+
+            if (writer != null) {
+                properties.store(writer, null);
+            }
+        } catch (Exception e) {
+            properties = null;
+            System.out.println("Exception: " + e);
+        }
+    }
+
+
 
     public long getRequestCount() {
         try {

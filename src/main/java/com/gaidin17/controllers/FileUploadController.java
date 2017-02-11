@@ -24,7 +24,7 @@ public class FileUploadController {
 
     @RequestMapping("/")
     public String helloWorld(Model model) {
-        model.addAttribute("code", IdCreatorService.getClientId());
+        model.addAttribute("code", IdCreatorService.getAndIncrementClientId());
         return "index";
     }
 

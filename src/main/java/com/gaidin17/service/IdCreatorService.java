@@ -17,10 +17,14 @@ public class IdCreatorService {
         clientId = appConfig.getRequestCount();
     }
 
-    public static long getClientId() {
+    public static long getAndIncrementClientId() {
         long id = clientId;
         clientId++;
         return id;
+    }
+
+    public static long getClientId() {
+        return clientId;
     }
 
     public static AppConfig getAppConfig() {
