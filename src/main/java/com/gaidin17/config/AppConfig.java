@@ -13,22 +13,29 @@ import java.util.Properties;
 public class AppConfig {
     private static final String PROPERTY_FILE = "AppConfig.properties";
     private Properties properties;
-    private String path;
+    private String homeDir;
+    public String getHomeDir() {
+        return homeDir;
+    }
+
+    public Properties getProperties() {
+        return properties;
+    }
 
     public AppConfig() {
-        path = new File("").getAbsolutePath();
+        homeDir = new File("").getAbsolutePath();
         properties = loadConfig();
     }
 
     private Properties loadConfig() {
         Properties properties = null;
-        try (FileReader reader = new FileReader(path + "\\" + PROPERTY_FILE)) {
+        try (FileReader reader = new FileReader(homeDir + "\\" + PROPERTY_FILE)) {
 
             if (reader != null) {
                 properties = new Properties();
                 properties.load(reader);
             } else {
-                File file = new File(path + "\\" + PROPERTY_FILE);
+                File file = new File(homeDir + "\\" + PROPERTY_FILE);
                 file.createNewFile();
             }
 
@@ -40,7 +47,7 @@ public class AppConfig {
     }
 
     public void saveConfig(String key, String value) {
-        try (FileWriter writer = new FileWriter(path + "\\" + PROPERTY_FILE)) {
+        try (FileWriter writer = new FileWriter(homeDir + "\\" + PROPERTY_FILE)) {
             if (properties == null) {
                 properties = new Properties();
             }
@@ -55,17 +62,12 @@ public class AppConfig {
         }
     }
 
-
-
     public long getRequestCount() {
         try {
             return Long.parseLong(properties.getProperty(AppConfigConstants.REQUEST_COUNT));
         } catch (Exception ex) {
             return 0;
         }
-    }
-    public Properties getProperties() {
-        return properties;
     }
 }
 
