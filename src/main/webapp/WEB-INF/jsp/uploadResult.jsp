@@ -21,11 +21,7 @@ response.setHeader("Expires","0");
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h1> ${code} </h1>
-<form enctype="multipart/form-data" method="post" action="/upload">
-   <input type="file" min="1" max="9999" name="file[]" multiple="true" />
-   <input type="hidden" name="sessionId" value="${sessionId}">
-   <input type="submit" name="submit" />
-</form>
+<p>Ваш номер клиента:</p>
+<h3>${code}</h3>
 </body>
 </html>
