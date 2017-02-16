@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -11,12 +12,11 @@ import java.util.Properties;
  */
 @Component
 public class AppConfig {
+    private static long requestCount;
+    private static String folderForPhotos;
     private static final String PROPERTY_FILE = "AppConfig.properties";
     private Properties properties;
     private String homeDir;
-    public String getHomeDir() {
-        return homeDir;
-    }
 
     public Properties getProperties() {
         return properties;
@@ -68,6 +68,19 @@ public class AppConfig {
         } catch (Exception ex) {
             return 0;
         }
+    }
+
+    public String getFolderForPhotos() {
+        try {
+            return properties.getProperty(AppConfigConstants.FOLDER_FOR_PHOTOS);
+        } catch (Exception ex) {
+            return homeDir;
+        }
+    }
+
+    private void initializeProperties() {
+        requestCount = 0;
+        folderForPhotos = homeDir;
     }
 }
 

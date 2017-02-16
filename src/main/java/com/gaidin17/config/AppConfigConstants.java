@@ -8,4 +8,5 @@ import org.springframework.stereotype.Component;
 
 public class AppConfigConstants {
     public static final String REQUEST_COUNT = "requestCount";
+    public static final String FOLDER_FOR_PHOTOS = "folderForPhotos";
 }

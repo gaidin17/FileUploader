@@ -22,6 +22,4 @@ public class User {
     public void setUserCode(long userCode) {
         this.userCode = userCode;
     }
-
-
 }

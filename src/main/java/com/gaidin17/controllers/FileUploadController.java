@@ -37,13 +37,16 @@ public class FileUploadController {
     @RequestMapping("/")
     public String helloWorld(Model model) {
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
-        if (userService.isUserInSystem(sessionId)) {
-            long userCode = IdCreatorService.getAndIncrementClientId();
+        long userCode;
+        if (!userService.isUserInSystem(sessionId)) {
+            userCode = IdCreatorService.getAndIncrementClientId();
             User user = new User(sessionId);
             user.setUserCode(userCode);
             userService.addUserToSystem(new User(sessionId));
-            model.addAttribute("code", userCode);
+        } else {
+            userCode = userService.getUserById(sessionId).getUserCode();
         }
+        model.addAttribute("code", userCode);
         model.addAttribute("sessionId", sessionId);
         return "index";
     }
