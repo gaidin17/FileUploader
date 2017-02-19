@@ -4,34 +4,28 @@ import com.gaidin17.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * Created by Evgeny_Akulenko on 2/10/2017.
  */
 @Component
 public class IdCreatorService {
-    private static volatile long clientId;
-    private static AppConfig appConfig;
+    private AppConfig appConfig;
+    private static volatile AtomicLong clientId ;
 
     @Autowired
     public IdCreatorService(AppConfig appConfig) {
-        clientId = appConfig.getRequestCount();
+        this.appConfig = appConfig;
+        clientId = new AtomicLong(appConfig.getRequestCount());
     }
 
     public static long getAndIncrementClientId() {
-        long id = clientId;
-        clientId++;
+        long id = clientId.getAndDecrement();
         return id;
     }
 
     public static long getClientId() {
-        return clientId;
-    }
-
-    public static AppConfig getAppConfig() {
-        return appConfig;
-    }
-
-    public static void setAppConfig(AppConfig appConfig) {
-        IdCreatorService.appConfig = appConfig;
+        return clientId.get();
     }
 }

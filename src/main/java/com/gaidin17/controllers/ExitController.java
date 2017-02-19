@@ -24,7 +24,8 @@ public class ExitController {
 
     @RequestMapping(value = "/stop_service", method = RequestMethod.GET)
     public void exit() {
-        appConfig.saveConfig(AppConfigConstants.REQUEST_COUNT, String.valueOf(idCreatorService.getClientId()));
+        appConfig.getProperties().setProperty(AppConfigConstants.REQUEST_COUNT, String.valueOf(idCreatorService.getClientId()));
+        appConfig.saveConfig();
         System.exit(0);
     }
 }

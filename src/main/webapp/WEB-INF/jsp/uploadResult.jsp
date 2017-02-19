@@ -21,7 +21,18 @@ response.setHeader("Expires","0");
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
+<c:choose>
+<c:when test="${empty error}">
 <p>Ваш номер клиента:</p>
 <h3>${code}</h3>
+</c:when>
+<c:otherwise>
+<p>${error}</p>
+</c:otherwise>
+</c:choose>
+<form enctype="multipart/form-data" method="post" action="/">
+   <input type="submit" name="submit" value="Вернуться"/>
+</form>
+
 </body>
 </html>

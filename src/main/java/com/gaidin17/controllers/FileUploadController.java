@@ -58,12 +58,9 @@ public class FileUploadController {
             User user = userService.getUserById(sessionId);
             userCode = user.getUserCode();
             model.addAttribute("code", userCode);
-            File folder = new File(appConfig.getHomeDir() + "\\" + userCode);
+            File folder = new File(appConfig.getFolderForPhotos() + "\\" + userCode + "___" + sessionId);
             if (!folder.exists()) {
                 folder.mkdir();
-            } else {
-                model.addAttribute("error", "Вам не удалось загрузить фотографии, обратитесь к менеджеру");
-                return "error";
             }
             for (MultipartFile file : files) {
                 if (!file.isEmpty()) {
@@ -71,17 +68,16 @@ public class FileUploadController {
                     try {
                         byte[] bytes = file.getBytes();
                         BufferedOutputStream stream =
-                                new BufferedOutputStream(new FileOutputStream(new File(folder + "\\" + name)));
+                                new BufferedOutputStream(new FileOutputStream(new File(folder.getAbsolutePath() + "\\" + name)));
                         stream.write(bytes);
                         stream.close();
                     } catch (Exception e) {
                         folder.delete();
                         model.addAttribute("error", "Вам не удалось загрузить" + name + " => " + e.getMessage());
-                        return "error";
                     }
                 } else {
                     model.addAttribute("error", "Необходимо выбрать одну или несколько фотографий для загрузки");
-                    return "error";
+                    return "uploadResult";
                 }
             }
         } else {

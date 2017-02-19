@@ -1,20 +1,22 @@
 package com.gaidin17.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import java.io.*;
 import java.util.Properties;
+
 
 /**
  * Created by Gaidin on 11.02.2017.
  */
 @Component
 public class AppConfig {
-    private static long requestCount;
-    private static String folderForPhotos;
-    private static final String PROPERTY_FILE = "AppConfig.properties";
+    private static Logger logger = LoggerFactory.getLogger(AppConfig.class);
+    private static String requestCount;
+
     private Properties properties;
     private String homeDir;
 
@@ -27,60 +29,68 @@ public class AppConfig {
         properties = loadConfig();
     }
 
+    @PostConstruct
+    private void initializeProperties() {
+        if (properties == null || properties.isEmpty()) {
+            properties = new Properties();
+            properties.setProperty(AppConfigConstants.REQUEST_COUNT, "0");
+            properties.setProperty(AppConfigConstants.FOLDER_FOR_PHOTOS, homeDir);
+            saveConfig();
+        } else {
+            requestCount = properties.getProperty(AppConfigConstants.REQUEST_COUNT);
+
+        }
+
+    }
+
     private Properties loadConfig() {
         Properties properties = null;
-        try (FileReader reader = new FileReader(homeDir + "\\" + PROPERTY_FILE)) {
+        try (FileReader reader = new FileReader(homeDir + "/" + AppConfigConstants.PROPERTY_FILE)) {
 
             if (reader != null) {
                 properties = new Properties();
-                properties.load(reader);
-            } else {
-                File file = new File(homeDir + "\\" + PROPERTY_FILE);
-                file.createNewFile();
+                try {
+                    properties.load(reader);
+                } catch (IOException e) {
+                    logger.error("Возникла проблема при загрузке файла {0}", AppConfigConstants.PROPERTY_FILE);
+                }
             }
 
+        } catch (FileNotFoundException e) {
+            File file = new File(homeDir + "/" + AppConfigConstants.PROPERTY_FILE);
+
+            try {
+                file.createNewFile();
+
+            } catch (IOException e1) {
+                logger.error("Возникла проблема при создании файла {0}", AppConfigConstants.PROPERTY_FILE);
+            }
         } catch (Exception e) {
-            properties = null;
-            System.out.println("Exception: " + e);
+            logger.error("Возникла проблема при инициализации {0}", AppConfigConstants.PROPERTY_FILE);
         }
         return properties;
     }
 
-    public void saveConfig(String key, String value) {
-        try (FileWriter writer = new FileWriter(homeDir + "\\" + PROPERTY_FILE)) {
+    public void saveConfig() {
+        try (FileWriter writer = new FileWriter(homeDir + "/" + AppConfigConstants.PROPERTY_FILE)) {
             if (properties == null) {
                 properties = new Properties();
             }
-            properties.setProperty(key, value);
-
             if (writer != null) {
                 properties.store(writer, null);
             }
         } catch (Exception e) {
-            properties = null;
-            System.out.println("Exception: " + e);
+            logger.error("Возникла проблема при сохранении {0}", AppConfigConstants.PROPERTY_FILE);
         }
     }
 
+
     public long getRequestCount() {
-        try {
-            return Long.parseLong(properties.getProperty(AppConfigConstants.REQUEST_COUNT));
-        } catch (Exception ex) {
-            return 0;
-        }
+        return Long.parseLong(properties.getProperty(AppConfigConstants.REQUEST_COUNT));
     }
 
     public String getFolderForPhotos() {
-        try {
-            return properties.getProperty(AppConfigConstants.FOLDER_FOR_PHOTOS);
-        } catch (Exception ex) {
-            return homeDir;
-        }
-    }
-
-    private void initializeProperties() {
-        requestCount = 0;
-        folderForPhotos = homeDir;
+        return properties.getProperty(AppConfigConstants.FOLDER_FOR_PHOTOS);
     }
 }
 
