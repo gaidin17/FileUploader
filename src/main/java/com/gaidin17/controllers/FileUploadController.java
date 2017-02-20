@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -42,7 +44,7 @@ public class FileUploadController {
             userCode = IdCreatorService.getAndIncrementClientId();
             User user = new User(sessionId);
             user.setUserCode(userCode);
-            userService.addUserToSystem(new User(sessionId));
+            userService.addUserToSystem(user);
         } else {
             userCode = userService.getUserById(sessionId).getUserCode();
         }
@@ -54,31 +56,35 @@ public class FileUploadController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file[]") MultipartFile[] files, @RequestParam("sessionId") String sessionId, Model model) {
         long userCode;
-        if(userService.isUserInSystem(sessionId)) {
+        if (userService.isUserInSystem(sessionId)) {
             User user = userService.getUserById(sessionId);
             userCode = user.getUserCode();
             model.addAttribute("code", userCode);
-            File folder = new File(appConfig.getFolderForPhotos() + "\\" + userCode + "___" + sessionId);
+            File folder = new File(appConfig.getFolderForPhotos() + "/" + userCode + "___" + sessionId);
             if (!folder.exists()) {
                 folder.mkdir();
             }
+            List<String> notUploadedFiles = new ArrayList<>();
             for (MultipartFile file : files) {
                 if (!file.isEmpty()) {
                     String name = file.getOriginalFilename();
                     try {
                         byte[] bytes = file.getBytes();
                         BufferedOutputStream stream =
-                                new BufferedOutputStream(new FileOutputStream(new File(folder.getAbsolutePath() + "\\" + name)));
+                                new BufferedOutputStream(new FileOutputStream(new File(folder.getAbsolutePath() + "/" + name)));
                         stream.write(bytes);
                         stream.close();
                     } catch (Exception e) {
                         folder.delete();
-                        model.addAttribute("error", "Вам не удалось загрузить" + name + " => " + e.getMessage());
+                        notUploadedFiles.add(name);
                     }
                 } else {
                     model.addAttribute("error", "Необходимо выбрать одну или несколько фотографий для загрузки");
                     return "uploadResult";
                 }
+            }
+            if (!notUploadedFiles.isEmpty()) {
+                model.addAttribute("error", "Вам не удалось выгрузить файлы: " + notUploadedFiles);
             }
         } else {
             model.addAttribute("error", "что-то пошло не так");

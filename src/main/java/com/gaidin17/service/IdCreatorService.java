@@ -21,7 +21,7 @@ public class IdCreatorService {
     }
 
     public static long getAndIncrementClientId() {
-        long id = clientId.getAndDecrement();
+        long id = clientId.getAndIncrement();
         return id;
     }
 
