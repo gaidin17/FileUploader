@@ -84,7 +84,7 @@ public class FileUploadController {
                 }
             }
             if (!notUploadedFiles.isEmpty()) {
-                model.addAttribute("error", "Вам не удалось выгрузить файлы: " + notUploadedFiles);
+                model.addAttribute("error", "Вам не удалось выгрузить " + notUploadedFiles.size() + " файлов");
             }
         } else {
             model.addAttribute("error", "что-то пошло не так");

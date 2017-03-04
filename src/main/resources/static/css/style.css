@@ -1,0 +1,64 @@
+
+body {
+    text-align: center;
+}
+
+.file-upload {
+    margin: auto;
+    position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
+    overflow: hidden; /* Все что выходит за пределы - скрываем */
+    width: 80%; /* Задаем ширину кнопки выбора файла */
+    height: 180px; /* Задаем высоту кнопки выбора файла */
+    background: #6da047;
+    border-radius: 3px;
+    padding: 8px 4px;
+    color: #fff;
+    text-align: center;
+}
+
+.file-upload:hover {
+    background: #7aad55;
+}
+
+.file-upload input[type="file"]{
+    display: none; /* Обязательно скрываем настоящий Input File */
+}
+
+h1 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.client_code{
+    font-size: 1000%;
+}
+
+.file-upload label {
+/* Растягиваем label на всю возможную площадь блока .file-upload */
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    font-size: 200%;
+    padding-top: 5%;
+
+}
+
+.btn {
+    top: 100px;
+    margin: auto;
+    position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
+    overflow: hidden; /* Все что выходит за пределы - скрываем */
+    width: 80%; /* Задаем ширину кнопки выбора файла */
+    height: 200px; /* Задаем высоту кнопки выбора файла */
+    background: blue;
+    border-radius: 3px;
+    padding: 8px 4px;
+    color: #fff;
+    text-align: center;
+    font-size: 200%;
+}
+

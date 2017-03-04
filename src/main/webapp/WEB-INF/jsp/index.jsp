@@ -19,68 +19,27 @@ response.setHeader("Expires","0");
 <head>
     <title>FileUploader</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <style type="text/css">
-
-  .file-upload {
-       position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
-       overflow: hidden; /* Все что выходит за пределы - скрываем */
-       width: 20%; /* Задаем ширину кнопки выбора файла */
-       height: 20px; /* Задаем высоту кнопки выбора файла */
-       background: #6da047;
-       border-radius: 3px;
-       padding: 8px 4px;
-       color: #fff;
-       text-align: center;
-  }
-  .file-upload:hover {
-       background: #7aad55;
-  }
-  .file-upload input[type="file"]{
-      display: none; /* Обязательно скрываем настоящий Input File */
-  }
-  .file-upload label {
-       /* Растягиваем label на всю возможную площадь блока .file-upload */
-       display: block;
-       position: absolute;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       cursor: pointer;
-  }
-  .file-upload span {
-       line-height: 36px; /* Делаем вертикальное выравнивание текста, который написан на кнопке */
-  }
-
-    </style>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script>
-    function check(){
-        var files = $("#choose_btn")[0].files;
-
-        for (var i = 0; i < files.length; i++)
-        {
-         alert(files[i].name);
+        function check(){
+            var files = $("#choose_btn")[0].files;
+            $(".btn_submit").after("<h3>вы выбрали  " + files.length + " файлов.</h3>");
         }
-
-
-    }
     </script>
 </head>
 <body>
-<h1> ${code} </h1>
+<h1>Выберите файлы для отправки</h1>
 <div class="main">
     <form class="common" enctype="multipart/form-data" method="post" action="/upload">
-       <div class="file-upload">
+        <div class="file-upload">
             <label>
-                 <input id="choose_btn" type="file" min="1" max="9999" name="file[]" multiple="true" onchange="check()"/>
-                 <span>Выберите файл</span>
+                <input id="choose_btn" type="file" min="1" max="9999" name="file[]" multiple="true" onchange="check()"/>
+                <span>Выберите файл</span>
             </label>
-       </div>
-       <input type="text" id="filename" class="filename" disabled>
-       <input type="hidden" name="sessionId" value="${sessionId}">
-       <input class="btn" type="submit" name="submit" />
-
+        </div>
+        <input type="hidden" name="sessionId" value="${sessionId}">
+        <input class="btn btn_submit" type="submit" name="submit"/>
     </form>
 </div>
 </body>
