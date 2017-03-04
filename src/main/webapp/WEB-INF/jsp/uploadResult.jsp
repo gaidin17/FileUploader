@@ -17,21 +17,23 @@ response.setHeader("Expires","0");
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Yourapp</title>
+    <title>FileUploader</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 </head>
 <body>
 <c:choose>
-<c:when test="${empty error}">
-<p>Ваш номер клиента:</p>
-<h3>${code}</h3>
-</c:when>
-<c:otherwise>
-<p>${error}</p>
-</c:otherwise>
+    <c:when test="${empty error}">
+        <p>Ваш номер клиента:</p>
+        <h3>${code}</h3>
+    </c:when>
+    <c:otherwise>
+        <p>${error}</p>
+    </c:otherwise>
 </c:choose>
 <form enctype="multipart/form-data" method="post" action="/">
-   <input type="submit" name="submit" value="Вернуться"/>
+    <input class="btn" type="submit" name="submit" value="Вернуться"/>
 </form>
 
 </body>
