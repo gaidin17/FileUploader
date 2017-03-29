@@ -20,12 +20,13 @@ response.setHeader("Expires","0");
     <title>FileUploader</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="css/style.css"/>
-    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="/js/jquery-3.1.1.min.js"></script>
     <script>
         function check(){
             var files = $("#choose_btn")[0].files;
-            $(".btn_submit").after("<h3>вы выбрали  " + files.length + " файлов.</h3>");
+            $("#target").text("Вы выбрали " + files.length + " файлов");
         }
+
     </script>
 </head>
 <body>
@@ -39,8 +40,11 @@ response.setHeader("Expires","0");
             </label>
         </div>
         <input type="hidden" name="sessionId" value="${sessionId}">
-        <input class="btn btn_submit" type="submit" name="submit"/>
+        <input class="btn btn_submit" type="submit" name="submit"/></br>
+        <span id="target"></span>
     </form>
+
 </div>
+
 </body>
 </html>

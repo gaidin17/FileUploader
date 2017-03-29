@@ -49,7 +49,6 @@ h1 {
 
 .btn {
     top: 100px;
-    margin: auto;
     position: relative; /* Даем возможность делать позиционирование, внутри данного элемента */
     overflow: hidden; /* Все что выходит за пределы - скрываем */
     width: 80%; /* Задаем ширину кнопки выбора файла */
@@ -61,4 +60,14 @@ h1 {
     text-align: center;
     font-size: 200%;
 }
+
+#target {
+margin-top: 200px;
+    margin-bottom: 50px;
+position:relative;
+top:200px;
+font-size: 200%;
+}
+
+
 
